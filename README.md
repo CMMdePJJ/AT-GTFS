@@ -1,3 +1,3 @@
 # AT-GTFS
-Scrape GTFS Schedule 
-R script for Auckland Transport Realtime Compat API
+Scrape the GTFS Schedule 
+and R script for Auckland Transport Realtime Compat API
