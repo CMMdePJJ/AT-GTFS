@@ -1,3 +1,5 @@
+This code is for scraping from the website Auckland Transport GTFS - Open Mobility Data
+
 # GTFS Schedule
 library(rvest)
 library(stringr)
