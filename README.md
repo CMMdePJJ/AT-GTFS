@@ -1,43 +1,7 @@
-This code is for scraping from the website Auckland Transport GTFS - Open Mobility Data
+This project is for examines the influence of rainfall on the punctuality of Auckland’s public transport.
 
-# GTFS Schedule
-library(rvest)
-library(stringr)
-#main page
-parent_part = 'https://transitfeeds.com/p/auckland-transport/124'
-
-#page number
-page_numbers = c(1:5)
-##to get all date you want
-use_link_all = NULL
-for(j in page_numbers) {
-  webpage <- read_html(paste0(parent_part, '?p=', j))
-  all_list = html_attr(html_nodes(webpage, "a"), "href")
-  routes_link = str_extract_all(all_list, "routes", simplify = TRUE)
-  use_link = all_list[routes_link == "routes"]
-  ##to get original file date
-  use_link = gsub("/p/auckland-transport/124/", "", use_link)
-  use_link = gsub("/routes", "", use_link)
-  use_link = use_link[!is.na(as.numeric(use_link))]
-  use_link_all = c(use_link_all, use_link)
-}
-
-##to set fix part link
-fix_part = 'https://openmobilitydata-data.s3-us-west-1.amazonaws.com/public/feeds/auckland-transport/124/'
-file_part = '/original/routes.txt'
-#time_part = '20170512'
-
-###to get all date files
-All_data = NULL
-for(i in use_link_all) {
-  url_parent <- paste0(fix_part, i, file_part)
-  ###get data from website 
-  txt_data <- read.table(url(url_parent), sep = ",", header = TRUE)
-  txt_data$Date = i
-  All_data = rbind(All_data, txt_data)
-}
-
-
-write.csv(All_data, "route_id_data.csv", row.names = FALSE) 
+Data:
+1. 10-minute interval data from the General Transit Feed Specification (GTFS) Realtime bus dataset, obtained from Auckland Transport (AT)’s Realtime Compat API
+2. Hourly precipitation data from New Zealand’s National Climate Database
 
 
